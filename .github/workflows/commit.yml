@@ -1,0 +1,19 @@
+name: commit
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+          
+      - name: kubetest
+        id: kubetest
+        uses: actions-hub/kubectl@master
+        env:
+          KUBE_CONFIG: ${{ secrets.ZLIT_MNG_KUBE_CONFIG }}
+        with:
+          args: get pods -n wt-system
